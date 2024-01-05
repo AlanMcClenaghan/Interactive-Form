@@ -56,7 +56,7 @@ so the user shouldn’t be able to see or choose a color option until they have 
 
 // Select Color Field
 const color = document.querySelector('#color');
-console.log(color);
+// console.log(color);
 
 // Disable Color by default
 color.disabled = true;
@@ -66,10 +66,10 @@ color.disabled = true;
 
 // Select Design Field
 const design = document.querySelector('#design');
-console.log(design);
+// console.log(design);
 
 design.addEventListener('change', e => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     // Get value when the changed
     const design = e.target.value;
     console.log(design);
@@ -100,38 +100,82 @@ should update to reflect the total cost of all the selected activities.
 
 // Select Register for Activities fieldset
 const activities = document.querySelectorAll('#activities');
-console.log(activities);
+// console.log(activities);
 
 // Select Total field
 const total = document.querySelector('#activities-cost');
-console.log("total.innerHTML: " + total.innerHTML);
+// console.log("total.innerHTML: " + total.innerHTML);
 
 // Declare Total Cost variable to hold total cost
 let totalCost = 0;
-console.log(totalCost);
-console.log(typeof(totalCost));
+// console.log(totalCost);
+// console.log(typeof(totalCost));
 
 // Add an event listener to the "Register for Activities" fieldset element to listen for changes. 
 
 activities.forEach(activity => {
     activity.addEventListener('change', e => {
         const currentActivity = e.target;
-        console.log(currentActivity);
+        // console.log(currentActivity);
         const cost = parseInt(currentActivity.dataset.cost);
-        console.log(typeof(cost));
-        console.log(typeof(cost));
+        // console.log(typeof(cost));
+        // console.log(typeof(cost));
 
         // When a change is detected:
         // If an activity is checked, the total cost should increase by the value in the data-cost attribute of the activity’s <input type="checkbox"> element.
         // If an activity is unchecked, the total cost should decrease by that amount.
         currentActivity.checked ? totalCost += cost : totalCost -= cost
-        console.log("totalCost: " + totalCost);
+        // console.log("totalCost: " + totalCost);
 
         // The <p> element with the id of "activity-cost" below the activities section should update to reflect the adjustment made.
         total.innerHTML = `Total: $${totalCost}`;
     });
-
 });
 
+/*
+The credit card payment option should be selected for the user by default.
+So upon page load "Credit Card" should be the selected option of the select element, 
+and the credit card payment section should be the only payment section displayed on the page. 
+When the user selects a different payment option from the drop-down menu, 
+the form should update to display only the chosen payment method section.
+*/
 
+// Select Payment Field
+const payment = document.querySelector('#payment');
+console.log(payment);
+
+// Select Credit Card Fields
+const creditCard = document.querySelector('#credit-card');
+console.log(creditCard);
+
+// Select Paypal Field
+const paypal = document.querySelector('#paypal');
+console.log(paypal);
+
+// Select Bitcoin Field
+const bitcoin = document.querySelector('#bitcoin');
+console.log(bitcoin);
+
+// Function to payment method
+function setPayment(method) {
+    payment.value = method;
+    creditCard.id === method ? creditCard.style.display = 'block' : creditCard.style.display = 'none';
+    paypal.id === method ? paypal.style.display = 'block' : paypal.style.display = 'none';
+    bitcoin.id === method ? bitcoin.style.display = 'block' : bitcoin.style.display = 'none';
+}
+
+// Call setPayment function by default
+setPayment('credit-card');
+
+// Add EventListener to Job Role Field
+// Program the "I'm going to pay with" <select> element to listen for user changes.
+payment.addEventListener('change', e => {
+    console.log(e.target.value);
+    // Get value when the changed
+    const method = e.target.value;
+    console.log(method);
+
+    // When a change is detected, hide all payment sections in the form’s UI except the selected one.
+    setPayment(method);
+});
 
