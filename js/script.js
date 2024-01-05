@@ -83,12 +83,55 @@ design.addEventListener('change', e => {
         // If the user selects "Theme - I ♥ JS" then the "Color" menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 
     const options = color.children;
-    console.log(options[0]);
-    options[0].textContent = "Select a Color";
+    // console.log(options[0]);
+    options[0].textContent = "Select a color";
 
     for (let i = 0; i < options.length; i++) {
-        console.log(options[i]);
+        // console.log(options[i]);
         options[i].dataset.theme === design ? options[i].hidden = false : options[i].hidden = true;
     }
 
 });
+
+/*
+The "Total: $" paragraph below the "Register for Activities" section 
+should update to reflect the total cost of all the selected activities.
+*/
+
+// Select Register for Activities fieldset
+const activities = document.querySelectorAll('#activities');
+console.log(activities);
+
+// Select Total field
+const total = document.querySelector('#activities-cost');
+console.log("total.innerHTML: " + total.innerHTML);
+
+// Declare Total Cost variable to hold total cost
+let totalCost = 0;
+console.log(totalCost);
+console.log(typeof(totalCost));
+
+// Add an event listener to the "Register for Activities" fieldset element to listen for changes. 
+
+activities.forEach(activity => {
+    activity.addEventListener('change', e => {
+        const currentActivity = e.target;
+        console.log(currentActivity);
+        const cost = parseInt(currentActivity.dataset.cost);
+        console.log(typeof(cost));
+        console.log(typeof(cost));
+
+        // When a change is detected:
+        // If an activity is checked, the total cost should increase by the value in the data-cost attribute of the activity’s <input type="checkbox"> element.
+        // If an activity is unchecked, the total cost should decrease by that amount.
+        currentActivity.checked ? totalCost += cost : totalCost -= cost
+        console.log("totalCost: " + totalCost);
+
+        // The <p> element with the id of "activity-cost" below the activities section should update to reflect the adjustment made.
+        total.innerHTML = `Total: $${totalCost}`;
+    });
+
+});
+
+
+
