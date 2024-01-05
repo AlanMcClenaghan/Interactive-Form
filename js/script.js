@@ -74,23 +74,25 @@ design.addEventListener('change', e => {
     const design = e.target.value;
     console.log(design);
 
-    // The "Color" <select> element should be enabled.
+    // The "Color" <select> element reset
     color.disabled = false;
-    
+
     // The "Color" <select> element should display an available color.
     // The "Color" dropdown menu should display only the color options associated with the selected design. For example:
         // If the user selects "Theme - JS Puns" then the "Color" menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
         // If the user selects "Theme - I ♥ JS" then the "Color" menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 
     const options = color.children;
-    // console.log(options[0]);
-    options[0].textContent = "Select a color";
+    console.log(options[0]);
 
     for (let i = 0; i < options.length; i++) {
         // console.log(options[i]);
         options[i].dataset.theme === design ? options[i].hidden = false : options[i].hidden = true;
     }
 
+    // Reset Select a color
+    options[0].textContent = "Select a color";
+    options[0].selected = true;
 });
 
 /*
@@ -142,19 +144,19 @@ the form should update to display only the chosen payment method section.
 
 // Select Payment Field
 const payment = document.querySelector('#payment');
-console.log(payment);
+// console.log(payment);
 
 // Select Credit Card Fields
 const creditCard = document.querySelector('#credit-card');
-console.log(creditCard);
+// console.log(creditCard);
 
 // Select Paypal Field
 const paypal = document.querySelector('#paypal');
-console.log(paypal);
+// console.log(paypal);
 
 // Select Bitcoin Field
 const bitcoin = document.querySelector('#bitcoin');
-console.log(bitcoin);
+// console.log(bitcoin);
 
 // Function to payment method
 function setPayment(method) {
@@ -170,10 +172,10 @@ setPayment('credit-card');
 // Add EventListener to Job Role Field
 // Program the "I'm going to pay with" <select> element to listen for user changes.
 payment.addEventListener('change', e => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     // Get value when the changed
     const method = e.target.value;
-    console.log(method);
+    // console.log(method);
 
     // When a change is detected, hide all payment sections in the form’s UI except the selected one.
     setPayment(method);
