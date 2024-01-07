@@ -193,7 +193,7 @@ If any of the following required fields are not valid, the form submission shoul
 
 // Form element variables
 const form = document.querySelector('form');
-console.log(form);
+// console.log(form);
 // console.log(nameField);
 const email = document.querySelector('#email');
 // console.log(email);
@@ -224,14 +224,34 @@ const isCvvValid = () => /^[0-9]{3}$/.test(cvv.value);
 form.addEventListener('submit', e => {
     
     const validator = (inputElement, validationFunction) => {
-        console.log(isValidEmail())
+        // console.log(isValidEmail())
         if (validationFunction()) {
             inputElement.classList.remove('error');
+
+            // Hide the .hint element associated with that element.
             inputElement.nextElementSibling.style.display = 'none';
+
+            // If a required form field or section is valid:
+            // Add the ‘.valid’ class to the parent element of the form field or section.
+            inputElement.parentElement.classList.add('valid');
+
+            // Remove the ‘.not-valid’ class from the parent element of the form field or section.
+            inputElement.parentElement.classList.remove('not-valid');
         } else {
             e.preventDefault();
             inputElement.classList.add('error');
+            
+            // Display the .hint element associated with the form field or section.
             inputElement.nextElementSibling.style.display = 'block';
+            
+            // When the user tries to submit the form, if a required form field or section is invalid:
+            // Add the ‘.not-valid’ class to the parent element of the form field or section.
+            // For the activity section, the parent element would be the fieldset element. 
+            // For the other required inputs, the parent element would be a label element.
+            inputElement.parentElement.classList.add('not-valid');
+            
+            // Remove the ‘.valid’ class from the parent element of the form field or section.
+            inputElement.parentElement.classList.remove('valid');
         }
     }
 
@@ -240,7 +260,7 @@ form.addEventListener('submit', e => {
     validator(total, atLeastOneActivitySelected);
     validator(total, atLeastOneActivitySelected);
     if (payment.value === "credit-card") {
-        console.log("payment.value: " + payment.value);
+        // console.log("payment.value: " + payment.value);
         validator(cardNumber, isCardNumberValid);
         validator(zip, isZipValid);
         validator(cvv, isCvvValid);
@@ -258,24 +278,34 @@ This will give the users that use keyboards to navigate your page a visual confi
 
 // Select checkbox
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-console.log(checkboxes);
+// console.log(checkboxes);
 
 // Program all of the activity checkbox input elements to listen for the focus and blur events.
 checkboxes.forEach(checkbox => {
     checkbox.addEventListener('focus', () => {
         // When the focus event is detected, add the ".focus" class to the checkbox input’s parent label element.
-        console.log(checkbox);
+        // console.log(checkbox);
         checkbox.parentElement.classList.add('focus');
-        console.log(checkbox);
+        // console.log(checkbox);
     });
     checkbox.addEventListener('blur', () => {
         // When the blur event is detected, remove the .focus class from the label element that possesses it. 
         // It can be helpful here to directly target the element with the className of .focus in order to remove it.
-        console.log(checkbox);
+        // console.log(checkbox);
         checkbox.parentElement.classList.remove('focus');
-        console.log(checkbox);
+        // console.log(checkbox);
     });
 });
 
+/* 
+Visual Validation Errors
 
+Make the form validation errors obvious to all users. 
+With the custom form validation checks you’ve already written, invalid form fields will prevent the form from submitting, 
+but all users should be presented with clear notifications of which fields are invalid.
+
+JavaScript alerts and prompts should not be used in your form validation error indications.
+If the user tries to submit an empty form, all form validation error indications should be displayed at once, rather than one at a time.
+
+*/
 
