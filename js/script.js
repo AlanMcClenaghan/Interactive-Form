@@ -14,7 +14,7 @@ function setFocus(field) {
 }
 
 // Call setFocus function on first text field
-// setFocus(nameField);
+setFocus(nameField);
 
 
 /* 
@@ -194,16 +194,16 @@ If any of the following required fields are not valid, the form submission shoul
 // Form element variables
 const form = document.querySelector('form');
 console.log(form);
-console.log(nameField);
+// console.log(nameField);
 const email = document.querySelector('#email');
-console.log(email);
-console.log(total);
+// console.log(email);
+// console.log(total);
 const cardNumber = document.querySelector('#cc-num');
-console.log(cardNumber);
+// console.log(cardNumber);
 const zip = document.querySelector('#zip');
-console.log(zip);
+// console.log(zip);
 const cvv = document.querySelector('#cvv');
-console.log(cvv);
+// console.log(cvv);
 
 // The "Name" field cannot be blank or empty.
 const nameFieldNotBlank = () => /^[\w]$/.test(nameField.value);
@@ -245,6 +245,36 @@ form.addEventListener('submit', e => {
         validator(zip, isZipValid);
         validator(cvv, isCvvValid);
     }
+});
+
+/* 
+The Activities Section
+
+Pressing the tab key on your keyboard moves the focus state from one input to the next, 
+but the focus indicators in the "Register for Activities" section aren’t very obvious. 
+To make the form more accessible we'll add visible focus states to these activities. 
+This will give the users that use keyboards to navigate your page a visual confirmation of where they are located.
+*/
+
+// Select checkbox
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+console.log(checkboxes);
+
+// Program all of the activity checkbox input elements to listen for the focus and blur events.
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('focus', () => {
+        // When the focus event is detected, add the ".focus" class to the checkbox input’s parent label element.
+        console.log(checkbox);
+        checkbox.parentElement.classList.add('focus');
+        console.log(checkbox);
+    });
+    checkbox.addEventListener('blur', () => {
+        // When the blur event is detected, remove the .focus class from the label element that possesses it. 
+        // It can be helpful here to directly target the element with the className of .focus in order to remove it.
+        console.log(checkbox);
+        checkbox.parentElement.classList.remove('focus');
+        console.log(checkbox);
+    });
 });
 
 
