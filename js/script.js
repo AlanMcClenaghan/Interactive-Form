@@ -14,7 +14,7 @@ function setFocus(field) {
 }
 
 // Call setFocus function on first text field
-setFocus(nameField);
+// setFocus(nameField);
 
 
 /* 
@@ -72,7 +72,7 @@ design.addEventListener('change', e => {
     // console.log(e.target.value);
     // Get value when the changed
     const design = e.target.value;
-    console.log(design);
+    // console.log(design);
 
     // The "Color" <select> element reset
     color.disabled = false;
@@ -83,7 +83,7 @@ design.addEventListener('change', e => {
         // If the user selects "Theme - I ♥ JS" then the "Color" menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 
     const options = color.children;
-    console.log(options[0]);
+    // console.log(options[0]);
 
     for (let i = 0; i < options.length; i++) {
         // console.log(options[i]);
@@ -180,4 +180,72 @@ payment.addEventListener('change', e => {
     // When a change is detected, hide all payment sections in the form’s UI except the selected one.
     setPayment(method);
 });
+
+/* 
+Users shouldn’t be able to submit a form without the required information, or with invalid information. 
+To prevent that from happening, avoid using plugins, libraries, snippets or the built-in HTML5 validation, 
+and create your own custom form validation.
+
+Add an event listener to the form element to listen for the submit event. 
+When the form submission is detected, each required form field or section should be validated to ensure that they have been filled out correctly. 
+If any of the following required fields are not valid, the form submission should be prevented.
+*/
+
+// Form element variables
+const form = document.querySelector('form');
+console.log(form);
+console.log(nameField);
+const email = document.querySelector('#email');
+console.log(email);
+console.log(total);
+const cardNumber = document.querySelector('#cc-num');
+console.log(cardNumber);
+const zip = document.querySelector('#zip');
+console.log(zip);
+const cvv = document.querySelector('#cvv');
+console.log(cvv);
+
+// The "Name" field cannot be blank or empty.
+const nameFieldNotBlank = () => /^[\w]$/.test(nameField.value);
+// The "Email Address" field must contain a correctly formatted email address. 
+//The email address does not need to be a real email address, just formatted like one. 
+//For example brian@teamtreehouse.com. Several characters for the username, preceded by "@", followed by another set of characters, ending with a "." and a couple more characters for the domain name.
+const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(email.value);
+// The "Register for Activities" section must have at least one activity selected.
+const atLeastOneActivitySelected = () => true ? totalCost > 0 : totalCost === 0
+// If and only if credit card is the selected payment method:
+// The "Card number" field must contain a 13 - 16 digit credit card number without dashes or spaces.
+const isCardNumberValid = () => /^[0-9]{13,16}$/.test(cardNumber.value);
+// The "Zip code" field must contain a 5-digit number.
+const isZipValid = () => /^[0-9]{5}$/.test(zip.value);
+// The "CVV" field must contain a 3-digit number.
+const isCvvValid = () => /^[0-9]{3}$/.test(cvv.value);
+
+form.addEventListener('submit', e => {
+    
+    const validator = (inputElement, validationFunction) => {
+        console.log(isValidEmail())
+        if (validationFunction()) {
+            inputElement.classList.remove('error');
+            inputElement.nextElementSibling.style.display = 'none';
+        } else {
+            e.preventDefault();
+            inputElement.classList.add('error');
+            inputElement.nextElementSibling.style.display = 'block';
+        }
+    }
+
+    validator(nameField, nameFieldNotBlank);
+    validator(email, isValidEmail);
+    validator(total, atLeastOneActivitySelected);
+    validator(total, atLeastOneActivitySelected);
+    if (payment.value === "credit-card") {
+        console.log("payment.value: " + payment.value);
+        validator(cardNumber, isCardNumberValid);
+        validator(zip, isZipValid);
+        validator(cvv, isCvvValid);
+    }
+});
+
+
 
