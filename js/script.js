@@ -115,6 +115,20 @@ activities.forEach(activity => {
 
         // The <p> element with the id of "activity-cost" below the activities section should update to reflect the adjustment made.
         total.innerHTML = `Total: $${totalCost}`;
+
+        // When a user selects an activity, loop over all of the activities to check if any have the same day and time as the selected activity.
+        const activityName = currentActivity.name;
+
+        // If so, disable/enable the conflicting activity’s checkbox input and add or remove the ‘disabled’ class to activity’s parent
+        if (activityName !== "all") {
+            const dayAndTime = currentActivity.dataset.dayAndTime;
+            const conflictingDayAndTime = document.querySelectorAll(`[data-day-and-time="${dayAndTime}"]`);
+
+            for (let i = 0; i < conflictingDayAndTime.length; i++) {
+                const conflictingActivity = conflictingDayAndTime[i];
+                conflictingActivity.disabled = currentActivity.checked && conflictingActivity !== currentActivity;
+            }
+        }
     });
 });
 
@@ -271,11 +285,11 @@ const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
 // Program all of the activity checkbox input elements to listen for the focus and blur events.
 checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('focus', () => {
+    checkbox.addEventListener('focus', e => {
         // When the focus event is detected, add the ".focus" class to the checkbox input’s parent label element.
         checkbox.parentElement.classList.add('focus');
     });
-    checkbox.addEventListener('blur', () => {
+    checkbox.addEventListener('blur', e => {
         // When the blur event is detected, remove the .focus class from the label element that possesses it. 
         checkbox.parentElement.classList.remove('focus');
     });
@@ -291,4 +305,19 @@ but all users should be presented with clear notifications of which fields are i
 JavaScript alerts and prompts should not be used in your form validation error indications.
 If the user tries to submit an empty form, all form validation error indications should be displayed at once, rather than one at a time.
 
+*/
+
+
+/* ============================================================================================================= */
+
+// Extra Credit
+
+// To get an "exceeds" rating, complete all of the steps below:
+
+/*
+1. Conflicting Activity Times - see section 7. Above
+
+Ideally, we want to prevent users from selecting activities that occur at the same time.
+
+label element.
 */
