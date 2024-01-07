@@ -203,7 +203,7 @@ const cvv = document.querySelector('#cvv');
 
 
 // The "Name" field cannot be blank or empty.
-const nameFieldNotBlank = () => /^[\w]$/.test(nameField.value);
+const nameFieldNotBlank = () => /^[\w]/.test(nameField.value);
 
 // The "Email Address" field must contain a correctly formatted email address.
 const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(email.value);
@@ -263,7 +263,6 @@ form.addEventListener('submit', e => {
     validator(nameField, nameFieldNotBlank);
     validator(email, isValidEmail);
     validator(total, atLeastOneActivitySelected);
-    validator(total, atLeastOneActivitySelected);
     if (payment.value === "credit-card") {
         validator(cardNumber, isCardNumberValid);
         validator(zip, isZipValid);
@@ -321,3 +320,67 @@ Ideally, we want to prevent users from selecting activities that occur at the sa
 
 label element.
 */
+
+/*
+
+Real-Time Error Messages
+
+Provide form validation error indications at the moment they occur to better serve your user.
+
+Program at least one of the required fields to listen for user interaction like a keyup. When the user interaction occurs, run the validation check for that input. If you created helper functions to validate the form inputs or section, you can call those helper functions inside of the field’s event listener.
+Detail this specific feature in your README.md file.
+
+*/
+
+form.addEventListener('keyup', e => {
+
+    const field = e.target;
+    console.log(field);
+    
+    const validator = (inputElement, validationFunction) => {
+        // When the form submission is detected, each required form field or section should be validated to ensure that they have been filled out correctly. 
+        if (validationFunction()) {
+
+            inputElement.classList.remove('error');
+
+            // Hide the .hint element associated with that element.
+            inputElement.nextElementSibling.style.display = 'none';
+
+            // If a required form field or section is valid:
+            // Add the ‘.valid’ class to the parent element of the form field or section.
+            inputElement.parentElement.classList.add('valid');
+
+            // Remove the ‘.not-valid’ class from the parent element of the form field or section.
+            inputElement.parentElement.classList.remove('not-valid');
+
+        } else {
+            // If any of the following required fields are not valid, the form submission should be prevented.
+            e.preventDefault();
+
+            inputElement.classList.add('error');
+            
+            // Display the .hint element associated with the form field or section.
+            inputElement.nextElementSibling.style.display = 'block';
+            
+            // When the user tries to submit the form, if a required form field or section is invalid:
+            // Add the ‘.not-valid’ class to the parent element of the form field or section.
+            inputElement.parentElement.classList.add('not-valid');
+            
+            // Remove the ‘.valid’ class from the parent element of the form field or section.
+            inputElement.parentElement.classList.remove('valid');
+        }
+    }
+
+    if (field === nameField) {
+        validator(nameField, nameFieldNotBlank);
+    } else if (field === email) {
+        validator(email, isValidEmail);
+    } else if (payment.value === "credit-card" && field === cardNumber) {
+        validator(cardNumber, isCardNumberValid);
+    } else if (payment.value === "credit-card" && field === zip) {
+        validator(zip, isZipValid);
+    } else if (payment.value === "credit-card" && field === cvv) {
+        validator(cvv, isCvvValid);
+    }
+
+});
