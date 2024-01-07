@@ -1,23 +1,21 @@
-// console.log("Test");
+/* 
 
-/* When the page first loads, 
+2. Name
+
+When the page first loads, 
 the first text field should have the focus state by default to prompt the user. 
 */
 
 // Select Name Field
 const nameField = document.querySelector('#name');
-// console.log(nameField);
 
-// Function to set focus
-function setFocus(field) {
-    field.classList.add('focus');
-}
-
-// Call setFocus function on first text field
-setFocus(nameField);
-
+// Set focus on load event
+nameField.focus();
 
 /* 
+
+3. Job Role Section
+
 The "Job Role" section has an <input type="text"> field where users can enter a custom job role. 
 If the user selects "Other" in the "Job Role" drop-down menu, 
 they can enter info into the "Other job role" text field. 
@@ -27,27 +25,26 @@ and only be displayed if "Other" is selected in the drop-down menu.
 
 // Select Other Field
 const otherJobRole = document.querySelector('#other-job-role');
-// console.log(otherJobRole);
 
 // Hide Other Field by default
 otherJobRole.hidden = true;
 
 // Select Job Role Field
 const jobRole = document.querySelector('#title');
-// console.log(jobRole);
 
 // Add EventListener to Job Role Field
 jobRole.addEventListener('change', e => {
-    // console.log(e.target.value);
     // Get value when the changed
     const role = e.target.value;
-    // console.log(role);
 
     // Reveal/Hide Other field depending on value of 
     role === 'other' ? otherJobRole.hidden = false : otherJobRole.hidden = true;
 });
 
 /* 
+
+4. T-Shirt Info Section
+
 The options in the "Color" drop-down menu are not available for each t-shirt design, 
 so the user shouldn’t be able to see or choose a color option until they have chosen a design.
 */
@@ -56,23 +53,18 @@ so the user shouldn’t be able to see or choose a color option until they have 
 
 // Select Color Field
 const color = document.querySelector('#color');
-// console.log(color);
 
 // Disable Color by default
 color.disabled = true;
-
 
 // Set up the "Design" <select> element to listen for changes. When a change is detected:
 
 // Select Design Field
 const design = document.querySelector('#design');
-// console.log(design);
 
 design.addEventListener('change', e => {
-    // console.log(e.target.value);
-    // Get value when the changed
+    // Get value on the change event
     const design = e.target.value;
-    // console.log(design);
 
     // The "Color" <select> element reset
     color.disabled = false;
@@ -83,51 +75,43 @@ design.addEventListener('change', e => {
         // If the user selects "Theme - I ♥ JS" then the "Color" menu should only display "Tomato," "Steel Blue," and "Dim Grey."
 
     const options = color.children;
-    // console.log(options[0]);
 
     for (let i = 0; i < options.length; i++) {
-        // console.log(options[i]);
         options[i].dataset.theme === design ? options[i].hidden = false : options[i].hidden = true;
     }
 
-    // Reset Select a color
+    // Reset Select a color after Design field changed
     options[0].textContent = "Select a color";
     options[0].selected = true;
 });
 
 /*
+
+5. Activities Section
+
 The "Total: $" paragraph below the "Register for Activities" section 
 should update to reflect the total cost of all the selected activities.
 */
 
 // Select Register for Activities fieldset
 const activities = document.querySelectorAll('#activities');
-// console.log(activities);
 
 // Select Total field
 const total = document.querySelector('#activities-cost');
-// console.log("total.innerHTML: " + total.innerHTML);
 
 // Declare Total Cost variable to hold total cost
 let totalCost = 0;
-// console.log(totalCost);
-// console.log(typeof(totalCost));
 
 // Add an event listener to the "Register for Activities" fieldset element to listen for changes. 
-
 activities.forEach(activity => {
     activity.addEventListener('change', e => {
         const currentActivity = e.target;
-        // console.log(currentActivity);
         const cost = parseInt(currentActivity.dataset.cost);
-        // console.log(typeof(cost));
-        // console.log(typeof(cost));
 
         // When a change is detected:
         // If an activity is checked, the total cost should increase by the value in the data-cost attribute of the activity’s <input type="checkbox"> element.
         // If an activity is unchecked, the total cost should decrease by that amount.
         currentActivity.checked ? totalCost += cost : totalCost -= cost
-        // console.log("totalCost: " + totalCost);
 
         // The <p> element with the id of "activity-cost" below the activities section should update to reflect the adjustment made.
         total.innerHTML = `Total: $${totalCost}`;
@@ -135,6 +119,9 @@ activities.forEach(activity => {
 });
 
 /*
+
+6. Payment Info Section
+
 The credit card payment option should be selected for the user by default.
 So upon page load "Credit Card" should be the selected option of the select element, 
 and the credit card payment section should be the only payment section displayed on the page. 
@@ -144,21 +131,17 @@ the form should update to display only the chosen payment method section.
 
 // Select Payment Field
 const payment = document.querySelector('#payment');
-// console.log(payment);
 
 // Select Credit Card Fields
 const creditCard = document.querySelector('#credit-card');
-// console.log(creditCard);
 
 // Select Paypal Field
 const paypal = document.querySelector('#paypal');
-// console.log(paypal);
 
 // Select Bitcoin Field
 const bitcoin = document.querySelector('#bitcoin');
-// console.log(bitcoin);
 
-// Function to payment method
+// Function to display payment method
 function setPayment(method) {
     payment.value = method;
     creditCard.id === method ? creditCard.style.display = 'block' : creditCard.style.display = 'none';
@@ -169,63 +152,70 @@ function setPayment(method) {
 // Call setPayment function by default
 setPayment('credit-card');
 
-// Add EventListener to Job Role Field
+// Add EventListener to Payment Field
 // Program the "I'm going to pay with" <select> element to listen for user changes.
 payment.addEventListener('change', e => {
-    // console.log(e.target.value);
     // Get value when the changed
     const method = e.target.value;
-    // console.log(method);
 
     // When a change is detected, hide all payment sections in the form’s UI except the selected one.
     setPayment(method);
 });
 
 /* 
+
+7. Form validation
+
 Users shouldn’t be able to submit a form without the required information, or with invalid information. 
 To prevent that from happening, avoid using plugins, libraries, snippets or the built-in HTML5 validation, 
 and create your own custom form validation.
 
-Add an event listener to the form element to listen for the submit event. 
-When the form submission is detected, each required form field or section should be validated to ensure that they have been filled out correctly. 
-If any of the following required fields are not valid, the form submission should be prevented.
 */
 
-// Form element variables
+// Select form
 const form = document.querySelector('form');
-// console.log(form);
-// console.log(nameField);
+
+// Select email
 const email = document.querySelector('#email');
-// console.log(email);
-// console.log(total);
+
+// Select Card Number
 const cardNumber = document.querySelector('#cc-num');
-// console.log(cardNumber);
+
+// Select Card Zip
 const zip = document.querySelector('#zip');
-// console.log(zip);
+
+// Select Card Zip
 const cvv = document.querySelector('#cvv');
-// console.log(cvv);
+
 
 // The "Name" field cannot be blank or empty.
 const nameFieldNotBlank = () => /^[\w]$/.test(nameField.value);
-// The "Email Address" field must contain a correctly formatted email address. 
-//The email address does not need to be a real email address, just formatted like one. 
-//For example brian@teamtreehouse.com. Several characters for the username, preceded by "@", followed by another set of characters, ending with a "." and a couple more characters for the domain name.
+
+// The "Email Address" field must contain a correctly formatted email address.
 const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(email.value);
+
 // The "Register for Activities" section must have at least one activity selected.
-const atLeastOneActivitySelected = () => true ? totalCost > 0 : totalCost === 0
+const atLeastOneActivitySelected = () => true ? totalCost > 0 : totalCost === 0;
+
 // If and only if credit card is the selected payment method:
+
 // The "Card number" field must contain a 13 - 16 digit credit card number without dashes or spaces.
 const isCardNumberValid = () => /^[0-9]{13,16}$/.test(cardNumber.value);
+
 // The "Zip code" field must contain a 5-digit number.
 const isZipValid = () => /^[0-9]{5}$/.test(zip.value);
+
 // The "CVV" field must contain a 3-digit number.
 const isCvvValid = () => /^[0-9]{3}$/.test(cvv.value);
 
+
+// Add an event listener to the form element to listen for the submit event. 
 form.addEventListener('submit', e => {
     
     const validator = (inputElement, validationFunction) => {
-        // console.log(isValidEmail())
+        // When the form submission is detected, each required form field or section should be validated to ensure that they have been filled out correctly. 
         if (validationFunction()) {
+
             inputElement.classList.remove('error');
 
             // Hide the .hint element associated with that element.
@@ -237,8 +227,11 @@ form.addEventListener('submit', e => {
 
             // Remove the ‘.not-valid’ class from the parent element of the form field or section.
             inputElement.parentElement.classList.remove('not-valid');
+
         } else {
+            // If any of the following required fields are not valid, the form submission should be prevented.
             e.preventDefault();
+
             inputElement.classList.add('error');
             
             // Display the .hint element associated with the form field or section.
@@ -246,8 +239,6 @@ form.addEventListener('submit', e => {
             
             // When the user tries to submit the form, if a required form field or section is invalid:
             // Add the ‘.not-valid’ class to the parent element of the form field or section.
-            // For the activity section, the parent element would be the fieldset element. 
-            // For the other required inputs, the parent element would be a label element.
             inputElement.parentElement.classList.add('not-valid');
             
             // Remove the ‘.valid’ class from the parent element of the form field or section.
@@ -260,7 +251,6 @@ form.addEventListener('submit', e => {
     validator(total, atLeastOneActivitySelected);
     validator(total, atLeastOneActivitySelected);
     if (payment.value === "credit-card") {
-        // console.log("payment.value: " + payment.value);
         validator(cardNumber, isCardNumberValid);
         validator(zip, isZipValid);
         validator(cvv, isCvvValid);
@@ -268,7 +258,7 @@ form.addEventListener('submit', e => {
 });
 
 /* 
-The Activities Section
+9. The Activities Section
 
 Pressing the tab key on your keyboard moves the focus state from one input to the next, 
 but the focus indicators in the "Register for Activities" section aren’t very obvious. 
@@ -278,27 +268,21 @@ This will give the users that use keyboards to navigate your page a visual confi
 
 // Select checkbox
 const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-// console.log(checkboxes);
 
 // Program all of the activity checkbox input elements to listen for the focus and blur events.
 checkboxes.forEach(checkbox => {
     checkbox.addEventListener('focus', () => {
         // When the focus event is detected, add the ".focus" class to the checkbox input’s parent label element.
-        // console.log(checkbox);
         checkbox.parentElement.classList.add('focus');
-        // console.log(checkbox);
     });
     checkbox.addEventListener('blur', () => {
         // When the blur event is detected, remove the .focus class from the label element that possesses it. 
-        // It can be helpful here to directly target the element with the className of .focus in order to remove it.
-        // console.log(checkbox);
         checkbox.parentElement.classList.remove('focus');
-        // console.log(checkbox);
     });
 });
 
 /* 
-Visual Validation Errors
+10. Visual Validation Errors - see section 7. Above
 
 Make the form validation errors obvious to all users. 
 With the custom form validation checks you’ve already written, invalid form fields will prevent the form from submitting, 
@@ -308,4 +292,3 @@ JavaScript alerts and prompts should not be used in your form validation error i
 If the user tries to submit an empty form, all form validation error indications should be displayed at once, rather than one at a time.
 
 */
-
