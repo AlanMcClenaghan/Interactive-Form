@@ -335,7 +335,6 @@ Detail this specific feature in your README.md file.
 form.addEventListener('keyup', e => {
 
     const field = e.target;
-    console.log(field);
     
     const validator = (inputElement, validationFunction) => {
         // When the form submission is detected, each required form field or section should be validated to ensure that they have been filled out correctly. 
@@ -368,6 +367,41 @@ form.addEventListener('keyup', e => {
             
             // Remove the ‘.valid’ class from the parent element of the form field or section.
             inputElement.parentElement.classList.remove('valid');
+
+            
+
+            if (isCardNumberValid) {
+                const hint = document.querySelector('#cc-hint');
+                if (cardNumber.value.length < 13) {
+                    const newHint = `Your Credit Card Number is too short. 13-16 digits required.`
+                    hint.textContent = newHint;
+                } else if (cardNumber.value.length > 16) {
+                    const newHint = `Your Credit Card Number is too long. 13-16 digits required.`
+                    hint.textContent = newHint;
+                }
+            }
+
+            if (isZipValid) {
+                const hint = document.querySelector('#zip-hint');
+                if (zip.value.length < 5) {
+                    const newHint = `Your Zip Code is too short. 5 digits required.`
+                    hint.textContent = newHint;
+                } else if (zip.value.length > 5) {
+                    const newHint = `Your Zip Code is too long. 5 digits required.`
+                    hint.textContent = newHint;
+                }
+            }
+
+            if (isCvvValid) {
+                const hint = document.querySelector('#cvv-hint');
+                if (cvv.value.length < 3) {
+                    const newHint = `Your CVV is too short. 3 digits required.`
+                    hint.textContent = newHint;
+                } else if (cvv.value.length > 3) {
+                    const newHint = `Your CVV is too long. 3 digits required.`
+                    hint.textContent = newHint;
+                }
+            }
         }
     }
 
